@@ -7,7 +7,7 @@ cat id_rsa.pub ->copy nội dung
 sau đó: https://github.com/settings/keys
 chọn New SSH key
 + Nhập Tilte
-+ >copy nội dung id_rsa.pub vào key
++ copy nội dung id_rsa.pub vào key
 + Add SSH Key
 
 
@@ -44,4 +44,9 @@ git branch -M main
 // git remote -v , lệnh kiểm tra đườn dẫn remote
 git remote add origin git@github.com:tungocvan/laravel-12.git
 // đẩy lên kho git
+git push -u origin main
+
+// từ lần sau trở đi thực hiện 3 lệnh
+git add .
+git commit -m "ghi chú nội dung đẩy lên kho git"
 git push -u origin main
