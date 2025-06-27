@@ -28,6 +28,20 @@
         ]
     },
     {
+        "title": "User Manager",
+        "icon": "fas fa-users",
+        "children": [
+            {
+                "title": "User List",
+                "route": "admin.users.index"
+            },
+            {
+                "title": "New User",
+                "route": "admin.users.create"
+            }
+        ]
+    },
+    {
         "title": "Logout",
         "icon": "fas fa-sign-out-alt",
         "route": "logout",

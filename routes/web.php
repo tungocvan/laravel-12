@@ -10,9 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -27,11 +25,17 @@ Route::middleware(['auth', 'role:admin'])->group(function(){
 Route::middleware(['auth', 'role:agent'])->group(function(){
     Route::get('/agent/dashboard', [AgentController::class, 'dashboard'])->name('agent.dashboard');
 });
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin,agent'])->group(function () {
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->only(['index', 'create', 'store']);
+});
+
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-
-
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->only(['index', 'create', 'store']);
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->only(['index', 'create', 'store']);
 });
 
 
