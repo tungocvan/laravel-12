@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Product List') }}
         </h2>
     </x-slot>
 
@@ -14,11 +14,11 @@
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        You are admin!.
-                    </div>
-                </div>
+                <h2 class="text-xl font-bold mb-4">Danh sách sản phẩm</h2>
+                <a href="{{ route('admin.products.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Thêm mới</a>
+
+                {{-- Nội dung bảng sản phẩm ở đây --}}
+                <p class="mt-4 text-gray-600">Đây là nơi hiển thị danh sách sản phẩm.</p>
             </div>
         </div>
     </div>

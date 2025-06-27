@@ -28,4 +28,11 @@ Route::middleware(['auth', 'role:agent'])->group(function(){
     Route::get('/agent/dashboard', [AgentController::class, 'dashboard'])->name('agent.dashboard');
 });
 
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+
+
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->only(['index', 'create', 'store']);
+});
+
+
 require __DIR__.'/auth.php';

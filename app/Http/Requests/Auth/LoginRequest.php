@@ -32,6 +32,7 @@ class LoginRequest extends FormRequest
         ];
     }
 
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -41,7 +42,21 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('username', 'password'), $this->boolean('remember'))) {
+        $username = $this->username;
+
+        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+            $user = \App\Models\User::where('email', $username)->first();
+
+            if (!$user) {
+                throw ValidationException::withMessages([
+                    'username' => 'Email không tồn tại trong hệ thống.',
+                ]);
+            }
+
+            $username = $user->username;
+        }
+
+        if (!Auth::attempt(['username' => $username, 'password' => $this->password], $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
@@ -51,7 +66,6 @@ class LoginRequest extends FormRequest
 
         RateLimiter::clear($this->throttleKey());
     }
-
     /**
      * Ensure the login request is not rate limited.
      *
