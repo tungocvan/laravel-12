@@ -1,4 +1,14 @@
-<aside x-data="{ open: true, mobileOpen: false }" class="bg-white dark:bg-gray-900 shadow h-screen fixed sm:static z-50 flex flex-col">
+<aside x-data="{
+    open: true,
+    mobileOpen: false,
+    closeSubmenus() {
+        document.querySelectorAll('[x-data]').forEach(el => {
+            if (el.__x && el.__x.$data.hasOwnProperty('submenuOpen')) {
+                el.__x.$data.submenuOpen = false;
+            }
+        });
+    }
+}" class="bg-white dark:bg-gray-900 shadow h-screen fixed sm:static z-50 flex flex-col">
 
     {{-- Mobile Toggle --}}
     <div class="flex items-center justify-between p-4 sm:hidden">
@@ -14,7 +24,7 @@
         {{-- Collapse Button --}}
         <div class="hidden sm:flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
             <h3 x-show="open" class="text-lg font-bold text-gray-700 dark:text-gray-200">Menu</h3>
-            <button @click="open = !open" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+            <button @click="open = !open; if(!open) closeSubmenus()" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
                 <i class="fas" :class="open ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
             </button>
         </div>
@@ -45,7 +55,7 @@
                             <i x-show="open" class="fas" :class="submenuOpen ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
                         </button>
 
-                        <ul x-show="submenuOpen" x-transition class="pl-8 mt-2 space-y-2" x-cloak>
+                        <ul x-show="submenuOpen && open" x-transition class="pl-8 mt-2 space-y-2" x-cloak>
                             @foreach ($item['children'] as $child)
                                 @php
                                     $hasRoute = isset($child['route']) && Route::has($child['route']);

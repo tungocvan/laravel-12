@@ -26,7 +26,17 @@ Route::middleware(['auth', 'role:agent'])->group(function(){
     Route::get('/agent/dashboard', [AgentController::class, 'dashboard'])->name('agent.dashboard');
 });
 Route::get('/dashboard', function () {
-    return view('dashboard');
+        $url = "dashboard";
+
+        if (request()->user()->role == "admin") {
+            $url = "admin/dashboard";
+        } else if(request()->user()->role == "agent"){
+            $url = "agent/dashboard";
+        }else{
+            return view('dashboard');
+        }
+        return redirect()->intended($url);
+   
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'checkRole:admin,agent'])->group(function () {
